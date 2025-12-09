@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,165 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { Package, Truck, CreditCard, User, Send, LogIn, UserPlus, Percent, Wallet, ClipboardList, ArrowLeft, PlusCircle, MapPin, Calendar, DollarSign, Edit, Trash2 } from 'lucide-react'
-
-interface TimelineItem {
-  estado: string
-  fecha: string
-}
-
-interface Pedido {
-  id: string
-  trackingId: string
-  origen: string
-  destino: string
-  peso: string
-  tipoEnvio: string
-  costo: number
-  estado: string
-  fecha: string
-  metodoPago: string
-  timeline: TimelineItem[]
-  descuentoAplicado: number
-}
-
-interface PedidoCardProps {
-  pedido: Pedido
-}
-
-interface Descuento {
-  id: number
-  nombre: string
-  descripcion: string
-  porcentaje: number
-  reclamado: boolean
-}
-
-interface DescuentoCardProps {
-  descuento: Descuento
-  onReclamar: (id: number) => void
-  isActive: boolean
-}
-
-interface MetodoPago {
-  id: number
-  tipo: string
-  numero: string
-}
-
-interface FormaPedido {
-  origen: string
-  destino: string
-  peso: string
-  tipoEnvio: string
-}
-
-const PedidoCard = ({ pedido }: { pedido: Pedido }): JSX.Element => {
-    const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card className="border-gray-300 bg-gray-100 overflow-hidden">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium text-gray-700">
-            Pedido #{pedido.trackingId}
-          </CardTitle>
-          <Badge variant="outline" className="text-gray-600 border-gray-400">
-            {pedido.estado}
-          </Badge>
-        </CardHeader>
-        <CardContent>
-          <div className="text-xs text-gray-500 mb-2">Fecha: {pedido.fecha}</div>
-          <div className="flex justify-between items-center">
-            <div className="text-sm text-gray-700">
-              {pedido.origen} → {pedido.destino}
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 border-gray-300 hover:bg-gray-200 transition-colors duration-200"
-            >
-              {isOpen ? 'Ocultar' : 'Detalle'}
-            </Button>
-          </div>
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-4 space-y-2 overflow-hidden"
-              >
-                <div className="text-sm text-gray-600">
-                  <div>Tipo de envío: {pedido.tipoEnvio}</div>
-                  <div>Peso: {pedido.peso} kg</div>
-                  <div>Costo: ${pedido.costo.toFixed(2)}</div>
-                  <div>Método de pago: {pedido.metodoPago}</div>
-                  {pedido.descuentoAplicado > 0 && (
-                    <div>Descuento aplicado: {pedido.descuentoAplicado}%</div>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <div className="text-sm font-medium text-gray-700">Línea de tiempo:</div>
-                  {pedido.timeline.map((item, index) => (
-                    <div key={index} className="flex items-center space-x-2">
-                      <div
-                        className={`w-2 h-2 rounded-full ${
-                          index === 0 ? 'bg-green-500' : 'bg-gray-400'
-                        }`}
-                      />
-                      <div className="text-xs text-gray-600">
-                        {item.estado} - {item.fecha}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-};
-
-
-const DescuentoCard: React.FC<DescuentoCardProps> = ({ descuento, onReclamar, isActive }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.3 }}
-  >
-    <Card className="border-gray-300 bg-gray-100">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-gray-700">{descuento.nombre}</CardTitle>
-        <Badge variant="outline" className={descuento.reclamado ? "text-gray-500 border-gray-400" : "text-green-600 border-green-500"}>
-          {descuento.reclamado ? (isActive ? "Activo" : "Reclamado") : "Disponible"}
-        </Badge>
-      </CardHeader>
-      <CardContent>
-        <p className="text-sm text-gray-600">{descuento.descripcion}</p>
-        {!descuento.reclamado && (
-          <Button 
-            onClick={() => onReclamar(descuento.id)} 
-            className="mt-2 w-auto px-6 bg-[#CA0007] hover:bg-[#A80006] text-white transition-colors duration-200"
-          >
-            Reclamar y Aplicar
-          </Button>
-        )}
-      </CardContent>
-    </Card>
-  </motion.div>
-)
+import { Package, Truck, CreditCard, User, Send, LogIn, UserPlus, Percent, Wallet, ClipboardList, ArrowLeft, PlusCircle, MapPin, DollarSign, Edit, Trash2 } from 'lucide-react'
+import { PedidoCard } from "@/components/PedidoCard"
+import { DescuentoCard } from "@/components/DescuentoCard"
+import type { Pedido, Descuento } from "@/lib/types"
 
 export default function EnviosExpress() {
-  const [pedido, setPedido] = useState<FormaPedido>({
+  const [pedido, setPedido] = useState<{ origen: string; destino: string; peso: string; tipoEnvio: string }>({
     origen: '',
     destino: '',
     peso: '',
